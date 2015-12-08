@@ -136,7 +136,7 @@ The following NuGet-based extension packages provide various mobile features tha
 	Enables the Entity Framework to access data in the SQL Database. Add to the configuration by calling the **AddTablesWithEntityFramework** extension method.
 
 - [Microsoft.Azure.Mobile.Server.Authentication]  
-	Enables authentication and sets-up the OWIN middleware used to validate tokens. Add to the configuration by calling the **AddAppServiceAuthentication** and **IAppBuilder**.**UseMobileAppAuthentication** extension methods.
+	Enables authentication and sets-up the OWIN middleware used to validate tokens. Add to the configuration by calling the **AddAppServiceAuthentication** and **IAppBuilder**.**UseAppServiceAuthentication** extension methods.
 
 - [Microsoft.Azure.Mobile.Server.Notifications]
 	Enables push notifications and defines a push registration endpoint. Add to the configuration by calling the **AddPushNotifications** extension method.
@@ -212,7 +212,7 @@ You can add authentication to your server project by extending the **MobileAppCo
 
 2. In the Startup.cs project file, add the following line of code at the beginning of the **Configuration** method:
 
-		app.UseMobileAppAuthentication(config);
+		app.UseAppServiceAuthentication(config);
 
 	This adds the OWIN middleware component that enables your Azure Mobile App to validate tokens issued by the associated App Service gateway.
 
