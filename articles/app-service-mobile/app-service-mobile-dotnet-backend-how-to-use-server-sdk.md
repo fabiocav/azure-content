@@ -145,7 +145,7 @@ The following NuGet-based extension packages provide various mobile features tha
 	Creates a controller that serves data to legacy web browsers from your Mobile App. Add to the configuration by calling the **MapLegacyCrossDomainController** extension method.
 
 - [Microsoft.Azure.Mobile.Server.Login] 
-	 Provides preview support for custom authentication via the MobileAppLoginHandler.CreateToken() method. This is a static method and does not need to be enabled in the configuration.
+	 Provides preview support for custom authentication via the AppServiceLoginHandler.CreateToken() method. This is a static method and does not need to be enabled in the configuration.
 
 ## How to: Publish the server project
 
@@ -226,7 +226,7 @@ You can choose to provide your own login system if you do not wish to use one of
 
 You will need to provide your own logic for determining if a user should be signed in. For example, you might check against salted and hashed passwords in a database. In the example below, the `isValidAssertion()` method is responsible for these checks and is defined elsewhere. 
 
-The custom authentication is exposed by creating a new ApiController and exposing register and login actions like the one below. The client can attempt login by collecting the relevant information from the user and submitting an HTTPS POST to the API with the user information in the body. Once that information is validated, a token can be issued using the `MobileAppLoginHandler.CreateToken()` method. 
+The custom authentication is exposed by creating a new ApiController and exposing register and login actions like the one below. The client can attempt login by collecting the relevant information from the user and submitting an HTTPS POST to the API with the user information in the body. Once that information is validated, a token can be issued using the `AppServiceLoginHandler.CreateToken()` method. 
 
 An example login action might be:
 
@@ -234,7 +234,7 @@ An example login action might be:
 		{
 			if (isValidAssertion(assertion)) // user-defined function, checks against a database
 			{
-				JwtSecurityToken token = MobileAppLoginHandler.CreateToken(new Claim[] { new Claim(JwtRegisteredClaimNames.Sub, assertion["username"]) },
+				JwtSecurityToken token = AppServiceLoginHandler.CreateToken(new Claim[] { new Claim(JwtRegisteredClaimNames.Sub, assertion["username"]) },
 					mySigningKey,
 					myAppURL,
 					myAppURL,
@@ -260,7 +260,7 @@ In the above, LoginResult and LoginResultUser are just simple objects exposing t
 			}
 		}
 
-The `MobileAppLoginHandler.CreateToken()` method includes an _audience_ and an _issuer_ parameter. Both of these are typically set to the URL of your application root, using the HTTPS scheme. Similarly you should set _secretKey_ to be the value of your application's signing key. This is a sensitive value that should never be shared or included in a client. You can obtain this value while hosted in App Service by referencing the _WEBSITE_AUTH_SIGNING_KEY_ environment variable. If needed in a local debugging context, follow the instructions in the [Local debugging with authentication](#local-debug) section to retrieve the key and store it as an application setting.
+The `AppServiceLoginHandler.CreateToken()` method includes an _audience_ and an _issuer_ parameter. Both of these are typically set to the URL of your application root, using the HTTPS scheme. Similarly you should set _secretKey_ to be the value of your application's signing key. This is a sensitive value that should never be shared or included in a client. You can obtain this value while hosted in App Service by referencing the _WEBSITE_AUTH_SIGNING_KEY_ environment variable. If needed in a local debugging context, follow the instructions in the [Local debugging with authentication](#local-debug) section to retrieve the key and store it as an application setting.
 
 You also need to provide a lifetime for the issued token, as well as any claims you would like included. It is required that you provide a subject claim, as shown in the example code.
 
